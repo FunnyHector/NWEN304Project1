@@ -18,7 +18,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 body {
   line-height: 1.2;
-  background-color: #F0F5FA;
+  background-color: rgba(240, 245, 250, .8);
 }
 
 table {
@@ -50,7 +50,7 @@ q:before, q:after {
 @font-face {
   font-family: 'ModernPictograms';
   src: url("../fonts/modernpics-webfont.eot");
-  src: url("../fonts/modernpics-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/modernpics-webfont.woff") format("woff"), url("../fonts/modernpics-webfont.ttf") format("truetype"), url("../fonts/modernpics-webfont.svg#ModernPictogramsNormal") format("svg");
+  src: url("../fonts/modernpics-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/modernpics-webfont.woff") format("woff"), url("../fonts/modernpics-webfont.ttf") format("truetype"), url("../_fonts/modernpics-webfont.svg#ModernPictogramsNormal") format("svg");
   font-weight: normal;
   font-style: normal;
 }
