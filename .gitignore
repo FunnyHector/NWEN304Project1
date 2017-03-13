@@ -1,0 +1,15 @@
+#sublimetext
+*.sublime-workspace
+*.sublime-project
+
+#OS X
+.DS_Store
+.AppleDouble
+.LSOverride
+# Icon must ends with two \r.
+Icon
+# Thumbnails
+._*
+
+# JetBrain temp files
+.idea
