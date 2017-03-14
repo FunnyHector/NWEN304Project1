@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>My To-Do List</title>
   <link href="css/todo.css" rel="stylesheet">
-  <!--TODO change the jquery-ui to jquery-ui.min-->
+  <!--TODO when everything is done, change the jquery-ui to jquery-ui.min-->
   <link href="css/jquery-ui.css" rel="stylesheet">
   <script src="js/jquery-3.1.1.min.js"></script>
   <script src="js/jquery-ui.min.js"></script>
@@ -14,8 +14,9 @@
 <body>
 <div class="container">
   <div id="to-do">
+
     <h1>My To-do List</h1>
-    <!-- add button here -->
+
     <button id="add-todo">Add to-do item</button>
 
 
@@ -23,16 +24,33 @@
     <ul id="todo-list">
 
     </ul>
+
   </div>
 
   <div id="completed">
+
     <h2>Completed Tasks</h2>
+
     <ul id="completed-list">
 
     </ul>
+
   </div>
 
   <!-- add dialog box here -->
+  <div id="new-todo" title="Add tod-do item">
+    <form>
+      <p>
+        <label for="task">
+          Task Name:
+        </label>
+
+        <input type="text" name="task" id="task">
+      </p>
+
+    </form>
+
+  </div>
 
 
 </div>
