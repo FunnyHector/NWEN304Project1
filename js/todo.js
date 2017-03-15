@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function () {
   $("#add-todo").button({
     icons: { primary: "ui-icon-circle-plus" }
@@ -17,10 +19,11 @@ $(document).ready(function () {
     width: "fit-content",
     buttons: {
       "Add task": function () {
-        let taskName = $("#task").val();
+        let $task = $("#task");
+        let taskName = $task.val();
 
         if (taskName === "") {
-          $("#task").effect("highlight", 1000);
+          $task.effect("highlight", 1000);
           return {};
         }
 
@@ -51,6 +54,38 @@ $(document).ready(function () {
       $("#completed-list").prepend($this);
       $this.slideDown();
     });
+  }).on("click", ".delete", function () {
+    let $taskItem = $(this).parent("li");
+    let taskName = $taskItem.children(".task").text();
+
+    let dialog = $(
+        `<div id='confirm-deletion' title='Confirm deletion'>
+          <p>
+            <span class='ui-icon ui-icon-alert'></span>
+            Do you want to delete ${taskName}</span>
+          </p>
+        </div>`
+    );
+
+    dialog.dialog({
+      modal: true,
+      autoOpen: false,
+      width: "fit-content",
+      buttons: {
+        "Confirm": function () {
+          $(this).dialog("close");
+
+          $taskItem.effect("puff", function () {
+            $(this).remove();
+          });
+        },
+        "Cancel": function () {
+          $(this).dialog("close");
+        }
+      }
+    });
+
+    dialog.dialog("open");
   });
 
   $(".sortable").sortable({
