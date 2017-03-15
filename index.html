@@ -13,46 +13,32 @@
 
 <body>
 <div class="container">
-  <div id="to-do">
-
+  <div>
     <h1>My To-do List</h1>
+  </div>
 
+  <div id="to-do">
     <button id="add-todo">Add to-do item</button>
-
-
     <h2>To Be Done</h2>
-    <ul id="todo-list">
-
-    </ul>
-
+    <ul id="todo-list" class="sortable"></ul>
   </div>
 
   <div id="completed">
-
     <h2>Completed Tasks</h2>
-
-    <ul id="completed-list">
-
-    </ul>
-
+    <ul id="completed-list" class="sortable"></ul>
   </div>
 
-  <!-- add dialog box here -->
   <div id="new-todo" title="Add tod-do item">
     <form>
       <p>
-        <label for="task">
-          Task Name:
-        </label>
-
-        <input type="text" name="task" id="task">
+        <label for="task">Task Name:</label><br>
+        <input type="text" name="task" size="32" id="task"><br>
+        <!--TODO add functionality to accept the description-->
+        <label for="task-description">Description:</label><br>
+        <textarea name="task" id="task-description" cols="30" rows="6"></textarea><br>
       </p>
-
     </form>
-
   </div>
-
-
 </div>
 </body>
 </html>

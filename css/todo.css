@@ -83,7 +83,7 @@ h2 {
 #add-todo {
   position: absolute;
   left: -175px;
-  top: 60px;
+  top: inherit;
 }
 
 /* form styles */
