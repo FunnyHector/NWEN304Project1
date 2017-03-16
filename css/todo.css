@@ -50,7 +50,7 @@ q:before, q:after {
 @font-face {
   font-family: 'ModernPictograms';
   src: url("../fonts/modernpics-webfont.eot");
-  src: url("../fonts/modernpics-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/modernpics-webfont.woff") format("woff"), url("../fonts/modernpics-webfont.ttf") format("truetype"), url("../_fonts/modernpics-webfont.svg#ModernPictogramsNormal") format("svg");
+  src: url("../fonts/modernpics-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/modernpics-webfont.woff") format("woff"), url("../fonts/modernpics-webfont.ttf") format("truetype"), url("../fonts/modernpics-webfont.svg#ModernPictogramsNormal") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -60,9 +60,14 @@ body {
   font-size: .75em;
 }
 
+#page-title, #to-do, #completed {
+  min-width: 600px;
+}
+
 .container {
-  position: relative;
-  margin: 50px 50px 0 200px;
+  margin: auto;
+  width: 80%;
+  padding: 30px 100px;
 }
 
 h1 {
@@ -80,10 +85,11 @@ h2 {
   padding-top: .2em;
 }
 
-#add-todo {
-  position: absolute;
-  left: -175px;
-  top: inherit;
+h1 #add-todo {
+  display: inline-block;
+  float: right;
+  font-weight: normal;
+  font-size: .6em;
 }
 
 /* form styles */
@@ -113,26 +119,29 @@ label {
   background-color: white;
 }
 
+#todo-list .due-date, #completed-list .due-date {
+  display: inline-block;
+}
+
+#todo-list .title, #completed-list .title {
+  width: 70%;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 #todo-list .description, #completed-list .description {
   border-top: 1px dotted rgba(0, 0, 0, 0.3);
   padding-left: 2em;
   background-color: #d7ebf9;
 }
 
-#todo-list .due-date, #completed-list .due-date {
-  display: inline-block;
-}
-
-#todo-list .task, #completed-list .task {
-  width: 60%;
-  display: inline-block;
-}
-
 #todo-list .ui-state-highlight, #completed-list .ui-state-highlight {
   min-height: 30px;
 }
 
-.delete, .done, .edit {
+.delete, .done, .edit, .toggle-description {
   font-family: ModernPictograms;
   font-size: .9em;
   display: inline-block;
@@ -146,13 +155,8 @@ label {
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.task {
-  cursor: pointer;
-}
-
 .done {
   float: left;
-  margin-right: 1em;
   color: white;
 }
 
@@ -193,6 +197,16 @@ label {
   color: green;
   border: none;
   cursor: default;
+}
+
+.toggle-description {
+  float: left;
+  margin-right: 1em;
+}
+
+.toggle-description:hover {
+  background-color: yellowgreen;
+  color: white;
 }
 
 .ui-effects-transfer {

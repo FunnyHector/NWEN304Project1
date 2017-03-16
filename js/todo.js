@@ -1,56 +1,51 @@
 'use strict';
 
 $(document).ready(function () {
-  // The button for adding a task and the event listener on it
+  // Make the button for adding a task
   $("#add-todo").button({
     icons: { primary: "ui-icon-circle-plus" }
   }).click(function () {
-    let title = $("#task-title");
-    let description = $("#task-description");
+    let $taskTitle = $("#task-title");
+    let $taskDescription = $("#task-description");
 
-    if (title.val().length > 0) {
-      title.val("");
-    }
+    // clear the task title and description
+    $taskTitle.val("");
+    $taskDescription.val("");
 
-    if (description.val().length > 0) {
-      description.val("");
-    }
-
-    // the dialog for new task items
-    let $newTodo = $("#new-todo").dialog({
+    // open the dialog for adding new task
+    $("#new-todo").dialog({
       modal: true,
       autoOpen: false,
       width: "fit-content",
       buttons: {
         "Add task": function () {
-          let $taskTitle = $("#task-title");
-          let taskTitle = $taskTitle.val();
+          let title = $.trim($taskTitle.val());
 
-          if (taskTitle === "") {
-            $taskTitle.effect("highlight", 1000);
+          // do not allow empty title
+          if (title.length === 0) {
+            $taskTitle.val("").effect("bounce", 1000);
             return {};
           }
 
-          let $taskDescription = $("#task-description");
-          let taskDescription = $taskDescription.val();
+          // make a task row
+          let $newTask = $("<li class='task-item'></li>")
+              .append("<span class='done'>%</span>")
+              .append(`<span class='title'>${title}</span>`)
+              .append("<div class='edit-n-delete'></div>");
 
-          let $newTask = $(
-              `<li class="task-item">
-              <span class='done'>%</span>
-              <span class='task'>${taskTitle}</span>
-              <div class="edit-n-delete">
-                <span class='edit'>r</span>
-                <span class='delete'>x</span>
-              </div>
-              <div class="description">
-                <p>${taskDescription}</p>
-              </div>
-            </li>
-            `
-          );
+          $newTask.children(".edit-n-delete")
+              .append("<span class='edit'>r</span>")
+              .append("<span class='delete'>x</span>");
 
-          $newTask.children(".description").hide();
+          // if there is a description, add the toggling functionality
+          let description = $.trim($taskDescription.val());
+          if (description.length > 0) {
+            $newTask.children(".edit-n-delete").prepend("<span class='toggle-description'>&gt;</span>");
+            $newTask.append(`<div class='description'><p>${description}</p></div>`);
+            $newTask.children(".description").hide();
+          }
 
+          // add the task in the list
           $("#todo-list").prepend($newTask);
           $newTask.hide().show("clip", 250).effect("highlight", 1000);
 
@@ -60,12 +55,10 @@ $(document).ready(function () {
           $(this).dialog("close");
         }
       }
-    });
-
-    $newTodo.dialog("open");
+    }).dialog("open");
   });
 
-  // ======== only for todo-list =============
+  // add listeners to buttons on to-be-done list
   $("#todo-list").on("click", ".done", function () {
     // the event listener on done button
     let $taskItem = $(this).parent("li");
@@ -78,52 +71,42 @@ $(document).ready(function () {
 
   }).on("click", ".edit", function () {
     // the event listener on edit button
+    let $taskItem = $(this).parents("li");
 
-    let $taskItem = $(this).parent("li");
-    let title = $taskItem.children(".task").val();
-    console.log(title);  // FIXME undefined
-    $("#new-todo #task-title").val(title);
-    let description = $taskItem.children(".description").val();
-    console.log(description);  // FIXME undefined
-    $("#new-todo #task-description").val(description);
+    // preset the text in title and description
+    let $newTodo = $("#new-todo");
+    let title = $.trim($taskItem.children(".title").text());
+    let description = $.trim($taskItem.children(".description").text());
+    $newTodo.children("#task-title").val(title);
+    $newTodo.children("#task-description").val(description);
 
-    let $editTodo = $("#new-todo").dialog({
+    // open the dialog for updating the task
+    $newTodo.dialog({
       modal: true,
       autoOpen: false,
       width: "fit-content",
-      title: "Update todo",
+      title: "Update task",
       buttons: {
         "Update": function () {
           let $taskTitle = $("#task-title");
-          let taskTitle = $taskTitle.val();
+          let title = $.trim($taskTitle.val());
 
-          if (taskTitle === "") {
-            $taskTitle.effect("highlight", 1000);
+          if (title.length === 0) {
+            $taskTitle.val("").effect("bounce", 1000);
             return {};
           }
 
+          // update the title
+          $taskItem.children(".title").text(title).effect("highlight", 1000);
+
+          // update the description
           let $taskDescription = $("#task-description");
-          let taskDescription = $taskDescription.val();
-
-          let $newTask = $(
-              `<li class="task-item">
-              <span class='done'>%</span>
-              <span class='task'>${taskTitle}</span>
-              <div class="edit-n-delete">
-                <span class='edit'>r</span>
-                <span class='delete'>x</span>
-              </div>
-              <div class="description">
-                <p>${taskDescription}</p>
-              </div>
-            </li>
-            `
-          );
-
-          $newTask.children(".description").hide();
-
-          $("#todo-list").prepend($newTask);
-          $newTask.hide().show("clip", 250).effect("highlight", 1000);
+          let description = $.trim($taskDescription.val());
+          let $description = $taskItem.children(".description");
+          $description.text(description);
+          if (!$description.is(":hidden")) {
+            $description.effect("highlight", 1000);
+          }
 
           $(this).dialog("close");
         },
@@ -131,60 +114,53 @@ $(document).ready(function () {
           $(this).dialog("close");
         }
       }
-    });
-
-    $editTodo.dialog("open");
-
-
+    }).dialog("open");
   });
 
-  // ============= for both lists ===============
-  $(".sortable").on("click", ".task", function () {
-    // the event listener on task title to toggle description
-    let $description = $(this).parent("li").children(".description");
-    $description.slideToggle();
-
-
-  }).on("click", ".delete", function () {
-    // the event listener on delete button
-    let $taskItem = $(this).parent("li");
-    let taskName = $taskItem.children(".task").text();
-
-    let dialog = $(
-        `<div id='confirm-deletion' title='Confirm deletion'>
-          <p>
-            <span class='ui-icon ui-icon-alert'></span>
-            Do you want to delete ${taskName}</span>
-          </p>
-        </div>`
-    );
-
-    dialog.dialog({
-      modal: true,
-      autoOpen: false,
-      width: "fit-content",
-      buttons: {
-        "Confirm": function () {
-          $(this).dialog("close");
-
-          $taskItem.effect("puff", function () {
-            $(this).remove();
-          });
-        },
-        "Cancel": function () {
-          $(this).dialog("close");
-        }
-      }
-    });
-
-    dialog.dialog("open");
-  });
-
-  // making all task items sortable
+  // make all tasks sortable
   $(".sortable").sortable({
     connectWith: ".sortable",
     cursor: "pointer",
     placeholder: "ui-state-highlight",
-    cancel: ".delete, .done, .edit"
+    cancel: ".toggle-description, .delete, .done, .edit"
+
+  }).on("click", ".toggle-description", function () {
+    // the event listener on toggle-description button
+    let $this = $(this);
+    let $description = $this.parents("li").children(".description");
+
+    if ($description.is(":hidden")) {
+      $this.text("/");
+    } else {
+      $this.text(">");
+    }
+
+    $description.slideToggle();
+
+  }).on("click", ".delete", function () {
+    // the event listener on delete button
+    let $taskItem = $(this).parents("li");
+    let title = $.trim($taskItem.children(".title").text());
+
+    // open the dialog for confirming the deletion
+    $("<div id='confirm-deletion' title='Confirm deletion'>")
+        .append(`<p><span class='ui-icon ui-icon-alert'></span>Do you want to delete "${title}"</span></p>`)
+        .dialog({
+          modal: true,
+          autoOpen: false,
+          width: "fit-content",
+          buttons: {
+            "Confirm": function () {
+              $(this).dialog("close");
+
+              $taskItem.effect("puff", function () {
+                $(this).remove();
+              });
+            },
+            "Cancel": function () {
+              $(this).dialog("close");
+            }
+          }
+        }).dialog("open");
   });
 });
