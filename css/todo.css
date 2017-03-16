@@ -113,6 +113,12 @@ label {
   background-color: white;
 }
 
+#todo-list .description, #completed-list .description {
+  border-top: 1px dotted rgba(0, 0, 0, 0.3);
+  padding-left: 2em;
+  background-color: #d7ebf9;
+}
+
 #todo-list .due-date, #completed-list .due-date {
   display: inline-block;
 }
@@ -126,7 +132,7 @@ label {
   min-height: 30px;
 }
 
-.delete, .done {
+.delete, .done, .edit {
   font-family: ModernPictograms;
   font-size: .9em;
   display: inline-block;
@@ -140,10 +146,33 @@ label {
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
+.task {
+  cursor: pointer;
+}
+
 .done {
   float: left;
   margin-right: 1em;
   color: white;
+}
+
+.edit-n-delete {
+  float: right;
+}
+
+.edit {
+  float: left;
+}
+
+#todo-list .edit:hover {
+  background-color: deepskyblue;
+  color: white;
+}
+
+#completed-list .edit {
+  color: gray;
+  border: none;
+  cursor: default;
 }
 
 .delete {
