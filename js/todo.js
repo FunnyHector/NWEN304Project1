@@ -37,13 +37,18 @@ $(document).ready(function () {
               .append("<span class='edit'>r</span>")
               .append("<span class='delete'>x</span>");
 
-          // if there is a description, add the toggling functionality
+          // add the toggling functionality
           let description = $.trim($taskDescription.val());
+
+          // if there is a description, enable the toggle button. otherwise disable it.
           if (description.length > 0) {
             $newTask.children(".edit-n-delete").prepend("<span class='toggle-description'>&gt;</span>");
-            $newTask.append(`<div class='description'><p>${description}</p></div>`);
-            $newTask.children(".description").hide();
+          } else {
+            $newTask.children(".edit-n-delete").prepend("<span class='toggle-description-disabled'>&gt;</span>");
           }
+
+          $newTask.append(`<div class='description'><p>${description}</p></div>`);
+          $newTask.children(".description").hide();
 
           // add the task in the list
           $("#todo-list").prepend($newTask);
@@ -77,8 +82,8 @@ $(document).ready(function () {
     let $newTodo = $("#new-todo");
     let title = $.trim($taskItem.children(".title").text());
     let description = $.trim($taskItem.children(".description").text());
-    $newTodo.children("#task-title").val(title);
-    $newTodo.children("#task-description").val(description);
+    $("#task-title").val(title);
+    $("#task-description").val(description);
 
     // open the dialog for updating the task
     $newTodo.dialog({
@@ -103,7 +108,17 @@ $(document).ready(function () {
           let $taskDescription = $("#task-description");
           let description = $.trim($taskDescription.val());
           let $description = $taskItem.children(".description");
+
+          if (description.length === 0) {
+            $description.hide();
+            $taskItem.find(".toggle-description").text(">").attr("class", "toggle-description-disabled");
+          } else if (description.length > 0) {
+            $description.slideDown();
+            $taskItem.find(".toggle-description-disabled").text("/").attr("class", "toggle-description");
+          }
+
           $description.text(description);
+
           if (!$description.is(":hidden")) {
             $description.effect("highlight", 1000);
           }

@@ -141,7 +141,7 @@ label {
   min-height: 30px;
 }
 
-.delete, .done, .edit, .toggle-description {
+.delete, .done, .edit, .toggle-description, .toggle-description-disabled {
   font-family: ModernPictograms;
   font-size: .9em;
   display: inline-block;
@@ -207,6 +207,14 @@ label {
 .toggle-description:hover {
   background-color: yellowgreen;
   color: white;
+}
+
+.toggle-description-disabled {
+  color: gray;
+  border: none;
+  cursor: default;
+  float: left;
+  margin-right: 1em;
 }
 
 .ui-effects-transfer {
