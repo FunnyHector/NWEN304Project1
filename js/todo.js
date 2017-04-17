@@ -108,19 +108,15 @@ $(document).ready(function () {
           let $taskDescription = $("#task-description");
           let description = $.trim($taskDescription.val());
           let $description = $taskItem.children(".description");
+          $description.text(description);
 
           if (description.length === 0) {
             $description.hide();
             $taskItem.find(".toggle-description").text(">").attr("class", "toggle-description-disabled");
           } else if (description.length > 0) {
-            $description.slideDown();
+            $description.slideDown().effect("highlight", 1000);
+            $taskItem.find(".toggle-description").text("/");
             $taskItem.find(".toggle-description-disabled").text("/").attr("class", "toggle-description");
-          }
-
-          $description.text(description);
-
-          if (!$description.is(":hidden")) {
-            $description.effect("highlight", 1000);
           }
 
           $(this).dialog("close");
